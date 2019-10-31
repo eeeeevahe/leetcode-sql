@@ -39,3 +39,23 @@ FROM Employee e
 WHERE Salary not in(Select Top 1 Salary 
 From Employee e)
 ```
+or
+
+```SQL server
+SELECT Salary as SecondHighestSalary
+From employee
+order by salary
+offset 1 rows
+fetch next 1 row only
+```
+
+or
+
+```SQL server
+SELECT Salary
+FROM (
+    SELECT row_number() OVER (ORDER BY Salary DESC) as rn, Salary
+    FROM Salaries
+) as Sn
+WHERE rn = 2 --change the number to get different salary
+```
