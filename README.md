@@ -59,3 +59,44 @@ FROM (
 ) as Sn
 WHERE rn = 2 --change the number to get different salary
 ```
+
+181. Employees Earning More Than Their Managers
+
+-self join
+-be mindful of you should use managerid = id to get only the employee rows
+-if you use id = managerid, you will only get manager rows
+
+```SQL server
+select e1.Name as Employee
+from Employee e1
+join Employee e2
+on e1.ManagerId = e2.Id
+where e1.Salary>e2.Salary
+```
+
+182. Duplicate Emails
+
+```SQL server
+select Email
+from Person
+group by Email
+having count(*) > 1
+```
+183. customers who never buy
+
+```SQL server
+select c.Name as Customers
+from Customers c
+left join Orders o
+on c.Id = o.CustomerId
+where o.CustomerId is null
+```
+
+or
+
+```SQL server
+select Name as Customers
+from Customers
+where Id not in (select CustomerId
+                 from Orders)
+```
